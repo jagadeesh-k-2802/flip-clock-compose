@@ -10,40 +10,52 @@ android {
     namespace = "com.jagadeesh.flipclock"
     compileSdk = 36
 
+    signingConfigs {
+        create("releaseTest") {
+            storeFile = file("release-test.jks")
+            storePassword = "123456"
+            keyAlias = "key0"
+            keyPassword = "123456"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.jagadeesh.flipclock"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
-
+        versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("releaseTest")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
+    // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Compose
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -57,6 +69,7 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
