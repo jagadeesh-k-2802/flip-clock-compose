@@ -7,6 +7,7 @@
 
 - Minimalist Flip Clock
 - Set as Screen Saver in Android Settings
+- Low Refresh Rate to Save Battery
 
 ## Screenshots 📷
 
